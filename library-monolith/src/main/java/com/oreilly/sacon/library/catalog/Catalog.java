@@ -1,5 +1,6 @@
 package com.oreilly.sacon.library.catalog;
 
+import com.oreilly.sacon.library.availability.Availability;
 import com.oreilly.sacon.library.models.Book;
 import com.oreilly.sacon.library.repositories.BookRepository;
 import java.util.Comparator;
@@ -14,11 +15,19 @@ public class Catalog {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private Availability availability;
+
     public List<Book> getAllBooks() {
         return bookRepository.findAll()
                 .stream()
-                .map(item -> new Book(item.getId(), item.getName(), item.getAuthor(), item.getDescription(), item.getRating(),
-                        item.getImagePath(), item.isAvailable()))
+                .map(item -> new Book(item.getId(),
+                        item.getName(),
+                        item.getAuthor(),
+                        item.getDescription(),
+                        item.getRating(),
+                        item.getImagePath(),
+                        availability.inStock(item.getId())))
                 .sorted(Comparator.comparing(Book::getName))
                 .collect(Collectors.toList());
     }

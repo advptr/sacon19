@@ -2,6 +2,8 @@ package com.oreilly.sacon.library;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.oreilly.sacon.library.availability.Availability;
+import com.oreilly.sacon.library.availability.BookAvailabilityRepository;
 import com.oreilly.sacon.library.catalog.Catalog;
 import com.oreilly.sacon.library.dao.Item;
 import com.oreilly.sacon.library.controllers.IndexController;
@@ -29,7 +31,11 @@ public class IndexPageTest {
     private WebClient webClient;
 
     @MockBean
-    private BookRepository bookRepository;
+    private BookAvailabilityRepository bookAvailabilityRepository;
+
+    @MockBean
+    private Availability availability;
+
 
     @MockBean
     private Catalog catalog;

@@ -9,8 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.argThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(SpringRunner.class)
@@ -23,12 +28,21 @@ public class AvailabilityTest {
     @MockBean
     private BookAvailabilityRepository bookAvailabilityRepository;
 
+    private final Book bookAvailable = new Book(true);
+    private final Book bookNotAvailable = new Book(false);
+
     @Before
     public void setUp() {
         initMocks(this);
 
-        when(bookAvailabilityRepository.findOne(1L)).thenReturn(new Book(true));
-        when(bookAvailabilityRepository.findOne(2L)).thenReturn(new Book(false));
+        when(bookAvailabilityRepository.findOne(1L)).thenReturn(bookAvailable);
+        when(bookAvailabilityRepository.findOne(2L)).thenReturn(bookNotAvailable);
+    }
+
+    @Test
+    public void shouldReturnItemAvailability() {
+        assertThat(availability.inStock(1L), is(bookAvailable.inStock()));
+        assertThat(availability.inStock(2L), is(bookNotAvailable.inStock()));
     }
 
     @Test

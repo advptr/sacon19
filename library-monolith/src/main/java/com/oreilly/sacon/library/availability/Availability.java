@@ -17,4 +17,9 @@ public class Availability {
         bookAvailabilityRepository.save(book);
     }
 
+
+    public boolean inStock(Long bookId) {
+        Book book = bookAvailabilityRepository.findOne(bookId);
+        return book.inStock();
+    }
 }
