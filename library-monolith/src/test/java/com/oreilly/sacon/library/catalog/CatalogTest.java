@@ -33,8 +33,8 @@ public class CatalogTest {
     @MockBean
     private Availability availability;
 
-    private Item first = new Item(1l, "First book", "Author", "Description", 1, true, "path");
-    private Item second = new Item(2l,"Second book", "Author", "Description", 1, false, "path");
+    private Item first = new Item(1l, "First book", "Author", "Description", 1, "path");
+    private Item second = new Item(2l,"Second book", "Author", "Description", 1, "path");
     private List<Item> completeCollection = new ArrayList() {{
         add(first);
         add(second);

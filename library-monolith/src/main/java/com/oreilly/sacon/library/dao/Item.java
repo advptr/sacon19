@@ -14,28 +14,25 @@ public class Item {
     @Lob
     private String description;
     private int rating;
-    private boolean available;
     private String imagePath;
 
     protected Item() {
     }
 
-    public Item(String name, String author, String description, int rating, boolean available, String imagePath) {
+    public Item(String name, String author, String description, int rating, String imagePath) {
         this.name = name;
         this.author = author;
         this.description = description;
         this.rating = rating;
-        this.available = available;
         this.imagePath = imagePath;
     }
 
-    public Item(Long id, String name, String author, String description, int rating, boolean available, String imagePath) {
+    public Item(Long id, String name, String author, String description, int rating, String imagePath) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.description = description;
         this.rating = rating;
-        this.available = available;
         this.imagePath = imagePath;
     }
 
@@ -55,10 +52,6 @@ public class Item {
         return rating;
     }
 
-    public boolean isAvailable() {
-        return available;
-    }
-
     public String getImagePath() {
         return imagePath;
     }
@@ -67,7 +60,4 @@ public class Item {
         return id;
     }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
 }
