@@ -1,28 +1,28 @@
 package com.oreilly.sacon.library.controllers;
 
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.oreilly.sacon.library.SaconLibraryApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = IndexController.class)
+@SpringBootTest(classes = {SaconLibraryApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class IndexControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+    @LocalServerPort
+    private int randomServerPort;
 
     @Test
-    public void shouldRedirectToCatalog() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/catalog"));
+    public void shouldShowCatalogWhenRequestingIndex() throws Exception {
+        HtmlPage page = new WebClient().getPage("http://127.0.0.1:" + randomServerPort + "/");
+
+        assertThat(page.getBody().getTextContent()).contains("Catalog");
     }
 }

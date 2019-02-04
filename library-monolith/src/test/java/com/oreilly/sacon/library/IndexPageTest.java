@@ -2,8 +2,10 @@ package com.oreilly.sacon.library;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.oreilly.sacon.library.catalog.Catalog;
 import com.oreilly.sacon.library.dao.Item;
 import com.oreilly.sacon.library.controllers.IndexController;
+import com.oreilly.sacon.library.models.Book;
 import com.oreilly.sacon.library.repositories.BookRepository;
 import com.oreilly.sacon.library.controllers.CatalogController;
 import org.junit.Test;
@@ -29,10 +31,13 @@ public class IndexPageTest {
     @MockBean
     private BookRepository bookRepository;
 
+    @MockBean
+    private Catalog catalog;
+
     @Test
     public void shouldShowCatalogWhenRequestingIndex() throws Exception {
-        Item item = mock(Item.class);
-        given(bookRepository.findAll()).willReturn(Arrays.asList(item));
+        Book book = mock(Book.class);
+        given(catalog.getAllBooks()).willReturn(Arrays.asList(book));
 
         HtmlPage page = this.webClient.getPage("/");
         assertThat(page.getBody().getTextContent()).contains("Catalog");
