@@ -1,8 +1,7 @@
 package com.oreilly.sacon.library.controllers;
 
+import com.oreilly.sacon.library.availability.Availability;
 import com.oreilly.sacon.library.catalog.Catalog;
-import com.oreilly.sacon.library.dao.Item;
-import com.oreilly.sacon.library.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CatalogController {
 
     @Autowired
-    private BookRepository bookRepository;
+    private Availability availability;
 
     @Autowired
     private Catalog catalog;
@@ -25,12 +24,10 @@ public class CatalogController {
         return "catalog";
     }
 
-
     @PostMapping(value = "/catalog/borrow")
-    public String borrow(@Param("bookId") Long bookId) {
-        Item book = bookRepository.findOne(bookId);
-        book.setAvailable(false);
-        bookRepository.save(book);
+    public String borrowBook(@Param("bookId") Long bookId) {
+        availability.borrow(bookId);
         return "redirect:/catalog";
     }
+
 }
